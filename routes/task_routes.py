@@ -9,7 +9,7 @@ task_bp = Blueprint('task_bp', __name__)
 @login_required
 def index():
     tasks = Task.query.filter_by(user_id=current_user.id).all()
-    return render_template('index.html', tasks=tasks)
+    return render_template('index.html', tasks=tasks)  # index--> login
 
 @task_bp.route('/create', methods=['GET', 'POST'])
 @login_required

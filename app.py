@@ -35,10 +35,10 @@ app.register_blueprint(admin_bp)
 with app.app_context():
     db.create_all()
 
-# @app.route('/')
-# def home():
-#     # return render_template("base.html") 
-#     if current_user.is_authenticated:
-#         return redirect(url_for('task_bp.index'))
-#     else:
-#         return redirect(url_for('auth.login'))
+@app.route('/')
+def home():
+    # return render_template("base.html") 
+    if current_user.is_authenticated:
+        return redirect(url_for('task_bp.index'))
+    else:
+        return redirect(url_for('auth.login'))

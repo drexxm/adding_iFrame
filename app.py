@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, request
 from config import Config
 from models import db
 from models.user import User
@@ -8,6 +8,7 @@ from routes.task_routes import task_bp
 from flask_login import LoginManager, current_user
 from routes.admin_routes import admin_bp
 from flask_migrate import Migrate
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -34,6 +35,18 @@ app.register_blueprint(admin_bp)
 
 with app.app_context():
     db.create_all()
+
+@app.before_request
+def track_user_page():
+    if current_user.is_authenticated:
+        path = request.path
+
+        # ✅ เงื่อนไขกันไม่ให้บันทึกเฉพาะพวก static หรือ auth/logout/login
+        skip_paths = ['/logout', '/login', '/register', '/static']
+        if not any(path.startswith(skip) for skip in skip_paths):
+            # ไม่เก็บ query string, เฉพาะ path
+            current_user.recent_page = path
+            db.session.commit()
 
 @app.route('/')
 def home():

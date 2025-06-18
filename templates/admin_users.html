@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 {% block title %}Manage Users{% endblock %}
 {% block content %}
 <h2>👥 User Management</h2>
@@ -22,7 +22,7 @@
     <td>
       {{ user.permissions }}
     </td>
-    <td>{{ user.recent_page or 'N/A' }}</td>
+    <td>{{ user.recent_page or '-' }}
     <td>
       <a href="{{ url_for('admin_bp.edit_permissions', id=user.id) }}" class="btn btn-sm btn-warning">
         Edit Permissions

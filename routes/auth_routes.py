@@ -48,4 +48,5 @@ def logout():
     current_user.recent_page = request.referrer  # หรือใส่จาก session
     db.session.commit()
     logout_user()
+    db.session.clear() 
     return redirect(url_for('auth.login'))

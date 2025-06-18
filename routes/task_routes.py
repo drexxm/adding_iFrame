@@ -56,7 +56,7 @@ def delete(id):
 def dashboard():
     perms = json.loads(current_user.permissions or '{}')
     if not perms.get('dashboard', False):
-        abort(403)   
+        abort(403)
     tasks = Task.query.filter_by(user_id=current_user.id).all()
     total = len(tasks)
     completed = sum(1 for t in tasks if t.status == 'completed')
